@@ -1,0 +1,381 @@
+- name: Nginx
+  category: web-server
+  tags: [nginx, web]
+  version_pattern: "nginx/([\\d.]+)"
+  min_weight: 50
+  matches:
+    - field: header.server
+      type: regex
+      pattern: "nginx"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "nginx"
+      weight: 30
+
+- name: Apache
+  category: web-server
+  tags: [apache, web]
+  version_pattern: "Apache/([\\d.]+)"
+  min_weight: 50
+  matches:
+    - field: header.server
+      type: regex
+      pattern: "Apache"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "Apache"
+      weight: 30
+
+- name: IIS
+  category: web-server
+  tags: [iis, windows, web]
+  version_pattern: "IIS/([\\d.]+)"
+  min_weight: 50
+  matches:
+    - field: header.server
+      type: regex
+      pattern: "Microsoft-IIS"
+      weight: 100
+
+- name: Tomcat
+  category: web-server
+  tags: [tomcat, java, web]
+  min_weight: 50
+  matches:
+    - field: header.server
+      type: keyword
+      pattern: "Apache-Coyote"
+      weight: 80
+    - field: body
+      type: keyword
+      pattern: "Apache Tomcat"
+      weight: 80
+    - field: body
+      type: keyword
+      pattern: "tomcat"
+      weight: 40
+
+- name: WordPress
+  category: cms
+  tags: [wordpress, cms, php]
+  min_weight: 60
+  matches:
+    - field: body
+      type: keyword
+      pattern: "wp-content"
+      weight: 80
+    - field: body
+      type: keyword
+      pattern: "wp-includes"
+      weight: 80
+    - field: header.x-powered-by
+      type: keyword
+      pattern: "WordPress"
+      weight: 60
+
+- name: Drupal
+  category: cms
+  tags: [drupal, cms, php]
+  min_weight: 60
+  matches:
+    - field: body
+      type: regex
+      pattern: "Drupal"
+      weight: 80
+    - field: header.x-generator
+      type: keyword
+      pattern: "Drupal"
+      weight: 100
+
+- name: Joomla
+  category: cms
+  tags: [joomla, cms, php]
+  min_weight: 60
+  matches:
+    - field: body
+      type: keyword
+      pattern: "/components/com_"
+      weight: 80
+    - field: body
+      type: keyword
+      pattern: "joomla"
+      weight: 60
+
+- name: Laravel
+  category: framework
+  tags: [laravel, php, framework]
+  min_weight: 60
+  matches:
+    - field: header.set-cookie
+      type: keyword
+      pattern: "laravel_session"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "laravel"
+      weight: 40
+
+- name: Spring Boot
+  category: framework
+  tags: [spring, java, framework]
+  min_weight: 60
+  matches:
+    - field: header.x-application-context
+      type: keyword
+      pattern: ""
+      weight: 80
+    - field: body
+      type: keyword
+      pattern: "Whitelabel Error Page"
+      weight: 100
+    - field: header.server
+      type: keyword
+      pattern: "Spring"
+      weight: 60
+
+- name: Django
+  category: framework
+  tags: [django, python, framework]
+  min_weight: 60
+  matches:
+    - field: header.server
+      type: keyword
+      pattern: "WSGIServer"
+      weight: 80
+    - field: body
+      type: keyword
+      pattern: "Django"
+      weight: 60
+    - field: header.x-frame-options
+      type: equals
+      value: "SAMEORIGIN"
+      weight: 20
+
+- name: PHP
+  category: language
+  tags: [php]
+  version_pattern: "PHP/([\\d.]+)"
+  min_weight: 50
+  matches:
+    - field: header.x-powered-by
+      type: regex
+      pattern: "PHP"
+      weight: 100
+    - field: header.server
+      type: regex
+      pattern: "PHP"
+      weight: 80
+
+- name: Shiro
+  category: security
+  tags: [shiro, java, auth]
+  min_weight: 80
+  matches:
+    - field: header.set-cookie
+      type: regex
+      pattern: "rememberMe=deleteMe"
+      weight: 100
+
+- name: Kibana
+  category: monitoring
+  tags: [kibana, elasticsearch, elk]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "Kibana"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "kibana"
+      weight: 60
+
+- name: Grafana
+  category: monitoring
+  tags: [grafana, monitoring]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "Grafana"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "grafana"
+      weight: 60
+
+- name: Jenkins
+  category: ci-cd
+  tags: [jenkins, devops]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "Jenkins"
+      weight: 100
+    - field: header.x-jenkins
+      type: keyword
+      pattern: ""
+      weight: 100
+
+- name: GitLab
+  category: devops
+  tags: [gitlab, git, devops]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "GitLab"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "gitlab"
+      weight: 60
+
+- name: Prometheus
+  category: monitoring
+  tags: [prometheus, monitoring]
+  min_weight: 80
+  matches:
+    - field: title
+      type: equals
+      value: "Prometheus Time Series Collection and Processing Server"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "prometheus"
+      weight: 40
+
+- name: MinIO
+  category: storage
+  tags: [minio, s3, storage]
+  min_weight: 60
+  matches:
+    - field: header.server
+      type: keyword
+      pattern: "MinIO"
+      weight: 100
+    - field: title
+      type: keyword
+      pattern: "MinIO"
+      weight: 80
+
+- name: Phpmyadmin
+  category: database
+  tags: [phpmyadmin, mysql, admin]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "phpMyAdmin"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "phpmyadmin"
+      weight: 80
+
+- name: Weblogic
+  category: web-server
+  tags: [weblogic, oracle, java]
+  min_weight: 60
+  matches:
+    - field: header.server
+      type: keyword
+      pattern: "WebLogic"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "WebLogic"
+      weight: 60
+
+- name: Hikvision
+  category: iot
+  tags: [hikvision, camera, iot]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "HIKVISION"
+      weight: 100
+    - field: body
+      type: keyword
+      pattern: "hikvision"
+      weight: 80
+
+- name: Dahua
+  category: iot
+  tags: [dahua, camera, iot]
+  min_weight: 60
+  matches:
+    - field: title
+      type: keyword
+      pattern: "Web Service"
+      weight: 40
+    - field: body
+      type: keyword
+      pattern: "dahua"
+      weight: 80
+
+- name: Router-Admin
+  category: network
+  tags: [router, admin, network]
+  min_weight: 40
+  matches:
+    - field: title
+      type: keyword
+      pattern: "router"
+      weight: 60
+    - field: body
+      type: keyword
+      pattern: "admin"
+      weight: 20
+
+- name: SSH
+  category: service
+  tags: [ssh, remote]
+  min_weight: 80
+  matches:
+    - field: banner
+      type: regex
+      pattern: "^SSH-"
+      weight: 100
+
+- name: FTP
+  category: service
+  tags: [ftp, file-transfer]
+  min_weight: 80
+  matches:
+    - field: banner
+      type: regex
+      pattern: "^220.*FTP"
+      weight: 100
+
+- name: MySQL
+  category: database
+  tags: [mysql, database]
+  min_weight: 80
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "mysql"
+      weight: 100
+    - field: app_proto
+      type: equals
+      value: "mysql"
+      weight: 100
+
+- name: Redis
+  category: database
+  tags: [redis, database, cache]
+  min_weight: 80
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "redis"
+      weight: 100
+    - field: app_proto
+      type: equals
+      value: "redis"
+      weight: 100
