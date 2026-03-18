@@ -20,9 +20,9 @@ type Asset struct {
 	TLSExpiry    string            `json:"tls_expiry,omitempty"`
 	Fingerprints []string          `json:"fingerprints,omitempty"`
 	Tags         []string          `json:"tags,omitempty"`
-	FirstSeen    time.Time         `json:"first_seen"`
-	LastSeen     time.Time         `json:"last_seen"`
-	ScanCount    int               `json:"scan_count"`
+	FirstSeen    *time.Time        `json:"first_seen,omitempty"`
+	LastSeen     *time.Time        `json:"last_seen,omitempty"`
+	ScanCount    int               `json:"scan_count,omitempty"`
 }
 
 // QueryOpts controls result pagination and ordering.

@@ -341,7 +341,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "OpenSSH_([\d.p]+)"
+      pattern: 'OpenSSH_([\d.p]+)'
       weight: 100
 
 - name: Dropbear
@@ -351,7 +351,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "dropbear_([\d.]+)"
+      pattern: 'dropbear_([\d.]+)'
       weight: 100
 
 - name: Bitvise SSH Server
@@ -371,7 +371,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "libssh_([\d.]+)"
+      pattern: 'libssh_([\d.]+)'
       weight: 100
 
 - name: Cisco SSH
@@ -393,7 +393,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "vsFTPd ([\d.]+)"
+      pattern: 'vsFTPd ([\d.]+)'
       weight: 100
 
 - name: ProFTPD
@@ -403,7 +403,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "ProFTPD ([\d.]+)"
+      pattern: 'ProFTPD ([\d.]+)'
       weight: 100
 
 - name: Pure-FTPd
@@ -423,7 +423,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "FileZilla Server ([\d.]+)"
+      pattern: 'FileZilla Server ([\d.]+)'
       weight: 100
 
 - name: Microsoft FTP Service
@@ -455,7 +455,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "Exim ([\d.]+)"
+      pattern: 'Exim ([\d.]+)'
       weight: 100
 
 - name: Sendmail
@@ -587,7 +587,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "([\d.]+-MariaDB)"
+      pattern: '([\d.]+-MariaDB)'
       weight: 100
     - field: banner
       type: keyword
@@ -601,7 +601,7 @@
   matches:
     - field: banner
       type: regex
-      pattern: "([\d.]+-Percona)"
+      pattern: '([\d.]+-Percona)'
       weight: 100
     - field: banner
       type: keyword
@@ -683,7 +683,7 @@
       weight: 80
     - field: banner
       type: regex
-      pattern: "VERSION ([\d.]+)"
+      pattern: 'VERSION ([\d.]+)'
       weight: 80
 
 # ── Oracle ────────────────────────────────────────────────────────────────────

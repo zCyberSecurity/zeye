@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Wed Mar 18 16:38:18 2026 as: nmap -p 1-65535 -T4 -&#45;open -oX scan.xml 192.168.18.0/24 -->
+<nmaprun scanner="nmap" args="nmap -p 1-65535 -T4 -&#45;open -oX scan.xml 192.168.18.0/24" start="1773823098" startstr="Wed Mar 18 16:38:18 2026" version="7.80" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<taskprogress task="Ping Scan" time="1773823102" percent="8.79" remaining="42" etc="1773823144"/>
+<taskprogress task="Ping Scan" time="1773823102" percent="25.68" remaining="12" etc="1773823114"/>
+<taskprogress task="Parallel DNS resolution of 256 hosts." time="1773823109" percent="75.00" remaining="2" etc="1773823111"/>
+<taskprogress task="Parallel DNS resolution of 256 hosts." time="1773823110" percent="75.00" remaining="2" etc="1773823112"/>
+<taskprogress task="Connect Scan" time="1773823122" percent="48.27" remaining="6" etc="1773823127"/>
+<taskprogress task="Connect Scan" time="1773823125" percent="79.72" remaining="3" etc="1773823127"/>
+<taskprogress task="Connect Scan" time="1773823126" percent="80.30" remaining="3" etc="1773823128"/>
+<taskprogress task="Connect Scan" time="1773823126" percent="80.68" remaining="3" etc="1773823128"/>
+<taskprogress task="Connect Scan" time="1773823127" percent="80.98" remaining="3" etc="1773823129"/>
+<taskprogress task="Connect Scan" time="1773823127" percent="81.11" remaining="3" etc="1773823129"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.58" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.60" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.62" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.66" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.69" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.72" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.75" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.77" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.78" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.80" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.82" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.82" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.85" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.87" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.88" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.90" remaining="3" etc="1773823130"/>
+<taskprogress task="Connect Scan" time="1773823128" percent="81.92" remaining="3" etc="1773823130"/>
+<host starttime="1773823102" endtime="1773823124"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<address addr="192.168.18.29" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65533">
+<extrareasons reason="conn-refused" count="65533"/>
+</extraports>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+</ports>
+<times srtt="1331" rttvar="643" to="100000"/>
+</host>
+<host starttime="1773823102" endtime="1773823125"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="192.168.18.136" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65532">
+<extrareasons reason="conn-refused" count="65532"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http-alt" method="table" conf="3"/></port>
+</ports>
+<times srtt="159" rttvar="118" to="100000"/>
+</host>
+<host starttime="1773823102" endtime="1773823124"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="192.168.18.241" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65522">
+<extrareasons reason="conn-refused" count="65522"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="427"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="svrloc" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="515"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="printer" method="table" conf="3"/></port>
+<port protocol="tcp" portid="631"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ipp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9100"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="jetdirect" method="table" conf="3"/></port>
+<port protocol="tcp" portid="9112"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="9113"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="9114"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="9115"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="9116"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="50001"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
+<port protocol="tcp" portid="59158"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+</ports>
+<times srtt="5374" rttvar="70" to="100000"/>
+</host>
+<host starttime="1773823102" endtime="1773823150"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<address addr="192.168.18.254" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="32898">
+<extrareasons reason="conn-refused" count="32898"/>
+</extraports>
+<extraports state="filtered" count="32634">
+<extrareasons reason="no-responses" count="32634"/>
+</extraports>
+<port protocol="tcp" portid="22"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ssh" method="table" conf="3"/></port>
+<port protocol="tcp" portid="23"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="telnet" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2650"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="eristwoguns" method="table" conf="3"/></port>
+</ports>
+<times srtt="7708" rttvar="2295" to="100000"/>
+</host>
+<runstats><finished time="1773823150" timestr="Wed Mar 18 16:39:10 2026" elapsed="52.86" summary="Nmap done at Wed Mar 18 16:39:10 2026; 256 IP addresses (4 hosts up) scanned in 52.86 seconds" exit="success"/><hosts up="4" down="252" total="256"/>
+</runstats>
+</nmaprun>

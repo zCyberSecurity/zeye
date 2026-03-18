@@ -9,6 +9,7 @@ import (
 	"sort"
 	"strings"
 	"syscall"
+	"time"
 
 	"github.com/schollz/progressbar/v3"
 	"github.com/spf13/cobra"
@@ -20,7 +21,7 @@ import (
 
 var probeCmd = &cobra.Command{
 	Use:   "probe",
-	Short: "Probe open ports from a scan result file",
+	Short: "Probe open ports from a scan result file, for proto, app, version",
 	Example: `
   zeye probe --input scan.json -o results.json
   zeye probe --input nmap.xml -o results.json
@@ -93,16 +94,11 @@ func runProbe(cmd *cobra.Command, args []string) error {
 
 	bar := progressbar.NewOptions(total,
 		progressbar.OptionSetWriter(os.Stderr),
-		progressbar.OptionEnableColorCodes(true),
 		progressbar.OptionShowCount(),
 		progressbar.OptionShowElapsedTimeOnFinish(),
-		progressbar.OptionSetTheme(progressbar.Theme{
-			Saucer:        "[green]=[reset]",
-			SaucerHead:    "[green]>[reset]",
-			SaucerPadding: " ",
-			BarStart:      "[",
-			BarEnd:        "]",
-		}),
+		progressbar.OptionThrottle(200*time.Millisecond),
+		progressbar.OptionSetWidth(30),
+		progressbar.OptionSetDescription("probing"),
 	)
 
 	var assets []*store.Asset
@@ -113,8 +109,8 @@ func runProbe(cmd *cobra.Command, args []string) error {
 		assets = append(assets, asset)
 		if isL7(asset.AppProto) {
 			l7Stats[asset.AppProto]++
+			bar.Describe(formatL7Stats(l7Stats))
 		}
-		bar.Describe(formatL7Stats(l7Stats))
 		_ = bar.Add(1)
 	}
 	_ = bar.Finish()

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Wed Mar 18 18:04:16 2026 as: nmap -p 1-65535 -T4 -&#45;open -oX scan2.xml 67.230.188.226 -->
+<nmaprun scanner="nmap" args="nmap -p 1-65535 -T4 -&#45;open -oX scan2.xml 67.230.188.226" start="1773828256" startstr="Wed Mar 18 18:04:16 2026" version="7.80" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<taskprogress task="Connect Scan" time="1773828260" percent="1.68" remaining="176" etc="1773828436"/>
+<host starttime="1773828256" endtime="1773828296"><status state="up" reason="syn-ack" reason_ttl="0"/>
+<address addr="67.230.188.226" addrtype="ipv4"/>
+<hostnames>
+<hostname name="67.230.188.226.16clouds.com" type="PTR"/>
+</hostnames>
+<ports><extraports state="closed" count="65437">
+<extrareasons reason="conn-refused" count="65437"/>
+</extraports>
+<extraports state="filtered" count="93">
+<extrareasons reason="no-responses" count="93"/>
+</extraports>
+<port protocol="tcp" portid="80"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="http" method="table" conf="3"/></port>
+<port protocol="tcp" portid="443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="3000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="ppp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="6443"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="sun-sr-https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="26494"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+</ports>
+<times srtt="139716" rttvar="1151" to="144320"/>
+</host>
+<runstats><finished time="1773828296" timestr="Wed Mar 18 18:04:56 2026" elapsed="39.86" summary="Nmap done at Wed Mar 18 18:04:56 2026; 1 IP address (1 host up) scanned in 39.86 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

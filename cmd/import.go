@@ -15,7 +15,8 @@ import (
 var importCmd = &cobra.Command{
 	Use:   "import <file>",
 	Short: "Import scan results into the database without probing",
-	Example: `  zeye import scan.json
+	Example: `
+  zeye import scan.json
   zeye import nmap.xml
   zeye import zmap.csv --format zmap`,
 	Args: cobra.ExactArgs(1),

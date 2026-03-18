@@ -76,9 +76,9 @@ func (d *DB) ensureIndex(ctx context.Context) error {
 // data and increment scan_count on re-discovery.
 func (d *DB) Upsert(ctx context.Context, a *Asset) error {
 	now := time.Now().UTC()
-	a.LastSeen = now
-	if a.FirstSeen.IsZero() {
-		a.FirstSeen = now
+	a.LastSeen = &now
+	if a.FirstSeen == nil {
+		a.FirstSeen = &now
 	}
 
 	params := map[string]interface{}{
