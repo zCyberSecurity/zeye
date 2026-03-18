@@ -332,24 +332,280 @@
       pattern: "admin"
       weight: 20
 
-- name: SSH
-  category: service
-  tags: [ssh, remote]
-  min_weight: 80
+# ── SSH ───────────────────────────────────────────────────────────────────────
+
+- name: OpenSSH
+  category: ssh-server
+  tags: [ssh, openssh, remote]
+  min_weight: 100
   matches:
     - field: banner
       type: regex
-      pattern: "^SSH-"
+      pattern: "OpenSSH_([\d.p]+)"
       weight: 100
 
-- name: FTP
-  category: service
-  tags: [ftp, file-transfer]
-  min_weight: 80
+- name: Dropbear
+  category: ssh-server
+  tags: [ssh, dropbear, embedded]
+  min_weight: 100
   matches:
     - field: banner
       type: regex
-      pattern: "^220.*FTP"
+      pattern: "dropbear_([\d.]+)"
+      weight: 100
+
+- name: Bitvise SSH Server
+  category: ssh-server
+  tags: [ssh, bitvise, windows]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Bitvise"
+      weight: 100
+
+- name: libssh
+  category: ssh-server
+  tags: [ssh, libssh]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "libssh_([\d.]+)"
+      weight: 100
+
+- name: Cisco SSH
+  category: ssh-server
+  tags: [ssh, cisco, network]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Cisco"
+      weight: 100
+
+# ── FTP ───────────────────────────────────────────────────────────────────────
+
+- name: vsftpd
+  category: ftp-server
+  tags: [ftp, vsftpd, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "vsFTPd ([\d.]+)"
+      weight: 100
+
+- name: ProFTPD
+  category: ftp-server
+  tags: [ftp, proftpd, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "ProFTPD ([\d.]+)"
+      weight: 100
+
+- name: Pure-FTPd
+  category: ftp-server
+  tags: [ftp, pure-ftpd, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Pure-FTPd"
+      weight: 100
+
+- name: FileZilla Server
+  category: ftp-server
+  tags: [ftp, filezilla, windows]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "FileZilla Server ([\d.]+)"
+      weight: 100
+
+- name: Microsoft FTP Service
+  category: ftp-server
+  tags: [ftp, microsoft, windows, iis]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Microsoft FTP Service"
+      weight: 100
+
+# ── SMTP ──────────────────────────────────────────────────────────────────────
+
+- name: Postfix
+  category: smtp-server
+  tags: [smtp, postfix, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Postfix"
+      weight: 100
+
+- name: Exim
+  category: smtp-server
+  tags: [smtp, exim, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "Exim ([\d.]+)"
+      weight: 100
+
+- name: Sendmail
+  category: smtp-server
+  tags: [smtp, sendmail, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Sendmail"
+      weight: 100
+
+- name: Microsoft Exchange SMTP
+  category: smtp-server
+  tags: [smtp, exchange, microsoft, windows]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Microsoft ESMTP MAIL Service"
+      weight: 100
+
+- name: Dovecot SMTP
+  category: smtp-server
+  tags: [smtp, dovecot, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Dovecot"
+      weight: 100
+    - field: app_proto
+      type: equals
+      value: "smtp"
+      weight: 50
+
+# ── IMAP ──────────────────────────────────────────────────────────────────────
+
+- name: Dovecot IMAP
+  category: imap-server
+  tags: [imap, dovecot, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Dovecot"
+      weight: 100
+    - field: app_proto
+      type: keyword
+      pattern: "imap"
+      weight: 50
+
+- name: Cyrus IMAP
+  category: imap-server
+  tags: [imap, cyrus]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Cyrus IMAP"
+      weight: 100
+
+- name: Microsoft Exchange IMAP
+  category: imap-server
+  tags: [imap, exchange, microsoft, windows]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Microsoft Exchange IMAP4"
+      weight: 100
+
+- name: Courier IMAP
+  category: imap-server
+  tags: [imap, courier]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Courier-IMAP"
+      weight: 100
+
+# ── POP3 ──────────────────────────────────────────────────────────────────────
+
+- name: Dovecot POP3
+  category: pop3-server
+  tags: [pop3, dovecot, linux]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Dovecot"
+      weight: 100
+    - field: app_proto
+      type: keyword
+      pattern: "pop3"
+      weight: 50
+
+- name: Microsoft Exchange POP3
+  category: pop3-server
+  tags: [pop3, exchange, microsoft, windows]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Microsoft Exchange POP3"
+      weight: 100
+
+- name: Courier POP3
+  category: pop3-server
+  tags: [pop3, courier]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: keyword
+      pattern: "Courier"
+      weight: 80
+    - field: app_proto
+      type: equals
+      value: "pop3"
+      weight: 50
+
+# ── MySQL / MariaDB / Percona ─────────────────────────────────────────────────
+
+- name: MariaDB
+  category: database
+  tags: [mysql, mariadb, database]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "([\d.]+-MariaDB)"
+      weight: 100
+    - field: banner
+      type: keyword
+      pattern: "MariaDB"
+      weight: 100
+
+- name: Percona Server
+  category: database
+  tags: [mysql, percona, database]
+  min_weight: 100
+  matches:
+    - field: banner
+      type: regex
+      pattern: "([\d.]+-Percona)"
+      weight: 100
+    - field: banner
+      type: keyword
+      pattern: "Percona"
       weight: 100
 
 - name: MySQL
@@ -357,25 +613,211 @@
   tags: [mysql, database]
   min_weight: 80
   matches:
-    - field: banner
-      type: keyword
-      pattern: "mysql"
-      weight: 100
     - field: app_proto
       type: equals
       value: "mysql"
-      weight: 100
+      weight: 80
+    - field: banner
+      type: keyword
+      pattern: "MySQL"
+      weight: 80
+
+# ── Redis ─────────────────────────────────────────────────────────────────────
 
 - name: Redis
   category: database
-  tags: [redis, database, cache]
+  tags: [redis, cache, database]
   min_weight: 80
   matches:
-    - field: banner
-      type: keyword
-      pattern: "redis"
-      weight: 100
     - field: app_proto
       type: equals
       value: "redis"
+      weight: 80
+    - field: banner
+      type: keyword
+      pattern: "Redis"
+      weight: 80
+
+# ── MongoDB ───────────────────────────────────────────────────────────────────
+
+- name: MongoDB
+  category: database
+  tags: [mongodb, nosql, database]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "mongodb"
+      weight: 80
+    - field: banner
+      type: keyword
+      pattern: "MongoDB"
+      weight: 80
+
+# ── PostgreSQL ────────────────────────────────────────────────────────────────
+
+- name: PostgreSQL
+  category: database
+  tags: [postgresql, database]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "postgresql"
+      weight: 80
+    - field: banner
+      type: keyword
+      pattern: "PostgreSQL"
+      weight: 80
+
+# ── Memcached ─────────────────────────────────────────────────────────────────
+
+- name: Memcached
+  category: database
+  tags: [memcached, cache]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "memcached"
+      weight: 80
+    - field: banner
+      type: regex
+      pattern: "VERSION ([\d.]+)"
+      weight: 80
+
+# ── Oracle ────────────────────────────────────────────────────────────────────
+
+- name: Oracle Database
+  category: database
+  tags: [oracle, database]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "oracle"
+      weight: 80
+    - field: banner
+      type: keyword
+      pattern: "Oracle"
+      weight: 80
+
+# ── SMB ───────────────────────────────────────────────────────────────────────
+
+- name: Samba
+  category: smb-server
+  tags: [smb, samba, linux]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: keyword
+      pattern: "smb"
+      weight: 60
+    - field: banner
+      type: keyword
+      pattern: "Samba"
+      weight: 100
+
+- name: Windows SMB
+  category: smb-server
+  tags: [smb, smb2, windows]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "smb2"
+      weight: 100
+
+# ── MQTT ──────────────────────────────────────────────────────────────────────
+
+- name: Eclipse Mosquitto
+  category: mqtt-broker
+  tags: [mqtt, mosquitto, iot]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: keyword
+      pattern: "mqtt"
+      weight: 60
+    - field: banner
+      type: keyword
+      pattern: "Mosquitto"
+      weight: 100
+
+- name: EMQX
+  category: mqtt-broker
+  tags: [mqtt, emqx, iot]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: keyword
+      pattern: "mqtt"
+      weight: 60
+    - field: banner
+      type: keyword
+      pattern: "EMQ"
+      weight: 100
+
+- name: MQTT Broker
+  category: mqtt-broker
+  tags: [mqtt, iot]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: keyword
+      pattern: "mqtt"
+      weight: 100
+
+# ── Industrial ────────────────────────────────────────────────────────────────
+
+- name: Modbus TCP
+  category: industrial
+  tags: [modbus, ics, scada]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "modbus"
+      weight: 100
+
+- name: DNP3
+  category: industrial
+  tags: [dnp3, ics, scada]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "dnp3"
+      weight: 100
+
+# ── Other services ────────────────────────────────────────────────────────────
+
+- name: Telnet
+  category: service
+  tags: [telnet, remote]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "telnet"
+      weight: 100
+
+- name: SOCKS5 Proxy
+  category: proxy
+  tags: [socks5, proxy]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "socks5"
+      weight: 100
+
+- name: NTP
+  category: service
+  tags: [ntp, time]
+  min_weight: 80
+  matches:
+    - field: app_proto
+      type: equals
+      value: "ntp"
       weight: 100

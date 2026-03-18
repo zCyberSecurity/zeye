@@ -10,12 +10,16 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "zeye",
 	Short: "zeye - Network asset mapping platform",
-	Long: `zeye is a network asset mapping and search platform similar to FOFA.
+	Long: `zeye is a local network asset mapping and search platform.
+
+Import scan results from masscan, nmap, or zmap, and probe discovered ports
+for application-layer details, then search your asset inventory with
+FOFA-style syntax.
 
 Usage:
-  zeye scan   -t 192.168.1.0/24 -p 80,443,8080 --rate 1000
-  zeye probe  --input scan.json
-  zeye query  'title*="admin" && port=80'
+  zeye probe  --input scan.json                      # probe & store results
+  zeye import scan.json                              # store without probing
+  zeye query  'title*="admin" && port=80'            # search assets
 `,
 }
 
@@ -27,8 +31,7 @@ func Execute() {
 }
 
 func init() {
-	rootCmd.AddCommand(scanCmd)
 	rootCmd.AddCommand(probeCmd)
-	rootCmd.AddCommand(queryCmd)
 	rootCmd.AddCommand(importCmd)
+	rootCmd.AddCommand(queryCmd)
 }
