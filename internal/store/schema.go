@@ -30,7 +30,12 @@ const indexMapping = `{
       "tls_alt_names": { "type": "keyword" },
       "tls_expiry":    { "type": "date" },
       "fingerprints":  { "type": "keyword" },
+      "categories":    { "type": "keyword" },
       "tags":          { "type": "keyword" },
+      "domain":        { "type": "keyword" },
+      "country":       { "type": "keyword" },
+      "region":        { "type": "keyword" },
+      "city":          { "type": "keyword" },
       "first_seen":    { "type": "date" },
       "last_seen":     { "type": "date" },
       "scan_count":    { "type": "integer" }

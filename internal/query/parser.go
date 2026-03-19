@@ -54,7 +54,7 @@ func (p *parser) expect(t TokenType) (Token, error) {
 //	not_expr   = "!" not_expr | primary
 //	primary    = "(" expr ")" | compare
 //	compare    = IDENT op value
-//	op         = "=" | "!=" | "*=" | "^=" | "$=" | "~=" | ">" | ">=" | "<" | "<="
+//	op         = "=" | "==" | "!=" | "*=" | "^=" | "$=" | "~=" | ">" | ">=" | "<" | "<="
 //	value      = STRING | NUMBER
 func (p *parser) parseExpr() (Node, error) {
 	return p.parseOrExpr()
@@ -147,6 +147,8 @@ func tokenToOp(tok Token) (string, error) {
 	switch tok.Type {
 	case TOKEN_EQ:
 		return "=", nil
+	case TOKEN_EXACT:
+		return "==", nil
 	case TOKEN_NEQ:
 		return "!=", nil
 	case TOKEN_GT:

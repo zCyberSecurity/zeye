@@ -14,6 +14,7 @@ import (
 	"github.com/schollz/progressbar/v3"
 	"github.com/spf13/cobra"
 	"github.com/zCyberSecurity/zeye/internal/fingerprint"
+	"github.com/zCyberSecurity/zeye/internal/geo"
 	"github.com/zCyberSecurity/zeye/internal/input"
 	"github.com/zCyberSecurity/zeye/internal/probe"
 	"github.com/zCyberSecurity/zeye/internal/store"
@@ -36,6 +37,7 @@ var (
 	probeConcurrency int
 	probeTimeout     int
 	probeRulesDir    string
+	probeGeoIPDB     string
 )
 
 func init() {
@@ -45,6 +47,7 @@ func init() {
 	probeCmd.Flags().IntVarP(&probeConcurrency, "concurrency", "c", 100, "Probe concurrency")
 	probeCmd.Flags().IntVar(&probeTimeout, "timeout", 8, "Probe timeout in seconds")
 	probeCmd.Flags().StringVar(&probeRulesDir, "rules", "", "Fingerprint rules directory (default: embedded rules)")
+	probeCmd.Flags().StringVar(&probeGeoIPDB, "geoip", "", "Path to GeoLite2-City.mmdb for GeoIP enrichment")
 	_ = probeCmd.MarkFlagRequired("input")
 }
 
@@ -87,6 +90,17 @@ func runProbe(cmd *cobra.Command, args []string) error {
 		}
 	}()
 
+	var geoDB *geo.DB
+	if probeGeoIPDB != "" {
+		var err2 error
+		geoDB, err2 = geo.Open(probeGeoIPDB)
+		if err2 != nil {
+			return fmt.Errorf("open geoip db: %w", err2)
+		}
+		defer geoDB.Close()
+		fmt.Printf("[*] GeoIP database loaded: %s\n", probeGeoIPDB)
+	}
+
 	probeEngine := probe.NewEngine(
 		probe.WithConcurrency(probeConcurrency),
 		probe.WithTimeoutSeconds(probeTimeout),
@@ -106,6 +120,13 @@ func runProbe(cmd *cobra.Command, args []string) error {
 	for result := range probeEngine.Run(ctx, feed) {
 		fps := fpEngine.Identify(result)
 		asset := store.AssetFromProbeResult(result, fps)
+		if geoDB != nil {
+			if info, err := geoDB.Lookup(asset.IP); err == nil {
+				asset.Country = info.Country
+				asset.Region = info.Region
+				asset.City = info.City
+			}
+		}
 		assets = append(assets, asset)
 		if isL7(asset.AppProto) {
 			l7Stats[asset.AppProto]++

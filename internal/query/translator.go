@@ -47,8 +47,14 @@ var esFieldMap = map[string]string{
 	"fingerprint":   "fingerprints",
 	"fingerprints":  "fingerprints",
 	"app":           "fingerprints",
+	"category":      "categories",
+	"categories":    "categories",
 	"tag":           "tags",
 	"tags":          "tags",
+	"domain":        "domain",
+	"country":       "country",
+	"region":        "region",
+	"city":          "city",
 }
 
 // numericFields require integer parsing.
@@ -124,6 +130,8 @@ func (t *translator) translateCompare(n *CompareNode) (map[string]interface{}, e
 
 	switch n.Operator {
 	case "=":
+		return t.containsQuery(col, n.Value)
+	case "==":
 		return t.eqQuery(col, n.Value)
 	case "!=":
 		inner, err := t.eqQuery(col, n.Value)
@@ -175,6 +183,22 @@ func (t *translator) eqQuery(col, value string) (map[string]interface{}, error) 
 }
 
 func (t *translator) containsQuery(col, value string) (map[string]interface{}, error) {
+	// Numeric fields: = still means exact match (contains is meaningless for numbers)
+	if numericFields[col] {
+		v, err := strconv.ParseInt(value, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("field %q requires a numeric value, got %q", col, value)
+		}
+		return map[string]interface{}{"term": map[string]interface{}{col: v}}, nil
+	}
+	// IP field: term query (supports CIDR natively)
+	if col == "ip" {
+		return map[string]interface{}{"term": map[string]interface{}{col: value}}, nil
+	}
+	// Date fields: term query
+	if dateFields[col] {
+		return map[string]interface{}{"term": map[string]interface{}{col: value}}, nil
+	}
 	if textFields[col] || col == "title" {
 		// Full-text match on text field
 		return map[string]interface{}{"match": map[string]interface{}{col: value}}, nil

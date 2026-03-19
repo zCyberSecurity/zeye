@@ -11,6 +11,7 @@ const (
 
 	// Comparison operators
 	TOKEN_EQ       // =
+	TOKEN_EXACT    // ==   (exact match)
 	TOKEN_NEQ      // !=
 	TOKEN_GT       // >
 	TOKEN_GE       // >=

@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net"
 	"strings"
 	"time"
 
@@ -93,7 +94,12 @@ func (d *DB) Upsert(ctx context.Context, a *Asset) error {
 		"tls_issuer":   a.TLSIssuer,
 		"tls_alt_names": nullableSlice(a.TLSAltNames),
 		"fingerprints": nullableSlice(a.Fingerprints),
+		"categories":  nullableSlice(a.Categories),
 		"tags":         nullableSlice(a.Tags),
+		"domain":      a.Domain,
+		"country":     a.Country,
+		"region":      a.Region,
+		"city":        a.City,
 	}
 
 	body := map[string]interface{}{
@@ -112,7 +118,12 @@ func (d *DB) Upsert(ctx context.Context, a *Asset) error {
 				if (params.tls_issuer  != '') ctx._source.tls_issuer  = params.tls_issuer;
 				if (params.tls_alt_names != null && params.tls_alt_names.length > 0) ctx._source.tls_alt_names = params.tls_alt_names;
 				if (params.fingerprints != null && params.fingerprints.length > 0)   ctx._source.fingerprints  = params.fingerprints;
+				if (params.categories  != null && params.categories.length > 0)      ctx._source.categories    = params.categories;
 				if (params.tags        != null && params.tags.length > 0)            ctx._source.tags          = params.tags;
+				if (params.domain      != '') ctx._source.domain  = params.domain;
+				if (params.country     != '') ctx._source.country = params.country;
+				if (params.region      != '') ctx._source.region  = params.region;
+				if (params.city        != '') ctx._source.city    = params.city;
 			`,
 			"params": params,
 		},
@@ -224,15 +235,23 @@ func (d *DB) Count(ctx context.Context, dsl map[string]interface{}) (int64, erro
 func AssetFromProbeResult(r *probe.ProbeResult, fps []fingerprint.MatchResult) *Asset {
 	var fpNames []string
 	versions := map[string]string{}
+	catSet := map[string]bool{}
 	tagSet := map[string]bool{}
 	for _, fp := range fps {
 		fpNames = append(fpNames, fp.Name)
 		if fp.Version != "" {
 			versions[fp.Name] = fp.Version
 		}
+		if fp.Category != "" {
+			catSet[fp.Category] = true
+		}
 		for _, t := range fp.Tags {
 			tagSet[t] = true
 		}
+	}
+	var categories []string
+	for c := range catSet {
+		categories = append(categories, c)
 	}
 	var tags []string
 	for t := range tagSet {
@@ -266,7 +285,9 @@ func AssetFromProbeResult(r *probe.ProbeResult, fps []fingerprint.MatchResult) *
 		TLSExpiry:    tlsExpiry,
 		Fingerprints: fpNames,
 		Versions:     versions,
+		Categories:   categories,
 		Tags:         tags,
+		Domain:       extractDomain(r.TLSAltNames),
 	}
 }
 
@@ -290,4 +311,17 @@ func nullableSlice(s []string) interface{} {
 		return nil
 	}
 	return s
+}
+
+// extractDomain returns the first domain name from TLS SAN entries.
+func extractDomain(altNames []string) string {
+	for _, name := range altNames {
+		if strings.HasPrefix(name, "*.") {
+			return name[2:]
+		}
+		if net.ParseIP(name) == nil && name != "" {
+			return name
+		}
+	}
+	return ""
 }

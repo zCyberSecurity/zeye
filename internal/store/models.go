@@ -20,10 +20,15 @@ type Asset struct {
 	TLSExpiry    string            `json:"tls_expiry,omitempty"`
 	Fingerprints []string            `json:"fingerprints,omitempty"`
 	Versions     map[string]string  `json:"versions,omitempty"`
+	Categories   []string           `json:"categories,omitempty"`
 	Tags         []string           `json:"tags,omitempty"`
-	FirstSeen    *time.Time        `json:"first_seen,omitempty"`
-	LastSeen     *time.Time        `json:"last_seen,omitempty"`
-	ScanCount    int               `json:"scan_count,omitempty"`
+	Domain       string             `json:"domain,omitempty"`
+	Country      string             `json:"country,omitempty"`
+	Region       string             `json:"region,omitempty"`
+	City         string             `json:"city,omitempty"`
+	FirstSeen    *time.Time         `json:"first_seen,omitempty"`
+	LastSeen     *time.Time         `json:"last_seen,omitempty"`
+	ScanCount    int                `json:"scan_count,omitempty"`
 }
 
 // QueryOpts controls result pagination and ordering.

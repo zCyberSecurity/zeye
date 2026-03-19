@@ -126,6 +126,10 @@ func (l *lexer) next() (Token, error) {
 		l.consume()
 		return Token{Type: TOKEN_LT, Value: "<", Pos: start}, nil
 
+	case ch == '=' && l.peekAt(1) == '=':
+		l.pos += 2
+		return Token{Type: TOKEN_EXACT, Value: "==", Pos: start}, nil
+
 	case ch == '=':
 		l.consume()
 		return Token{Type: TOKEN_EQ, Value: "=", Pos: start}, nil

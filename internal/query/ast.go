@@ -24,7 +24,7 @@ func (*UnaryNode) nodeMarker() {}
 // CompareNode represents a single field comparison.
 type CompareNode struct {
 	Field    string // "ip", "port", "title", "tls_subject" ...
-	Operator string // "=", "!=", ">", ">=", "<", "<=", "*=", "^=", "$=", "~="
+	Operator string // "=", "==", "!=", ">", ">=", "<", "<=", "*=", "^=", "$=", "~="
 	Value    string // raw value string
 }
 
