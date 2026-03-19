@@ -223,9 +223,13 @@ func (d *DB) Count(ctx context.Context, dsl map[string]interface{}) (int64, erro
 // AssetFromProbeResult converts a probe result + fingerprint matches to an Asset.
 func AssetFromProbeResult(r *probe.ProbeResult, fps []fingerprint.MatchResult) *Asset {
 	var fpNames []string
+	versions := map[string]string{}
 	tagSet := map[string]bool{}
 	for _, fp := range fps {
 		fpNames = append(fpNames, fp.Name)
+		if fp.Version != "" {
+			versions[fp.Name] = fp.Version
+		}
 		for _, t := range fp.Tags {
 			tagSet[t] = true
 		}
@@ -261,6 +265,7 @@ func AssetFromProbeResult(r *probe.ProbeResult, fps []fingerprint.MatchResult) *
 		TLSAltNames:  r.TLSAltNames,
 		TLSExpiry:    tlsExpiry,
 		Fingerprints: fpNames,
+		Versions:     versions,
 		Tags:         tags,
 	}
 }

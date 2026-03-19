@@ -18,8 +18,9 @@ type Asset struct {
 	TLSIssuer    string            `json:"tls_issuer"`
 	TLSAltNames  []string          `json:"tls_alt_names,omitempty"`
 	TLSExpiry    string            `json:"tls_expiry,omitempty"`
-	Fingerprints []string          `json:"fingerprints,omitempty"`
-	Tags         []string          `json:"tags,omitempty"`
+	Fingerprints []string            `json:"fingerprints,omitempty"`
+	Versions     map[string]string  `json:"versions,omitempty"`
+	Tags         []string           `json:"tags,omitempty"`
 	FirstSeen    *time.Time        `json:"first_seen,omitempty"`
 	LastSeen     *time.Time        `json:"last_seen,omitempty"`
 	ScanCount    int               `json:"scan_count,omitempty"`

@@ -25,7 +25,7 @@ var httpPorts = map[uint16]bool{
 
 // httpsPorts are ports where HTTPS is attempted first.
 var httpsPorts = map[uint16]bool{
-	443: true, 8443: true, 4443: true, 10443: true,
+	443: true, 6443: true, 8443: true, 4443: true, 10443: true,
 }
 
 // HTTPProber handles HTTP and HTTPS protocol detection.
@@ -56,14 +56,27 @@ func (h *HTTPProber) Probe(ctx context.Context, ip string, port uint16) (*ProbeR
 		schemes = []string{"http", "https"}
 	}
 
+	var httpFallback *ProbeResult
 	var lastErr error
 	for _, scheme := range schemes {
 		target := fmt.Sprintf("%s://%s", scheme, addr)
 		result, err := h.probeURL(ctx, target, ip, port)
-		if err == nil {
-			return result, nil
+		if err != nil {
+			lastErr = err
+			continue
 		}
-		lastErr = err
+		// Server told us this is actually an HTTPS port; save as fallback, try HTTPS next.
+		if scheme == "http" && strings.Contains(result.Body, "Client sent an HTTP request to an HTTPS server") {
+			httpFallback = result
+			continue
+		}
+		return result, nil
+	}
+	if httpFallback != nil {
+		// The server explicitly told us it expects HTTPS, so mark accordingly
+		// even though our HTTPS probe failed (e.g. TLS handshake issue).
+		httpFallback.AppProto = "https"
+		return httpFallback, nil
 	}
 	return nil, lastErr
 }
@@ -71,7 +84,6 @@ func (h *HTTPProber) Probe(ctx context.Context, ip string, port uint16) (*ProbeR
 func (h *HTTPProber) probeURL(ctx context.Context, rawURL, ip string, port uint16) (*ProbeResult, error) {
 	tlsConfig := &tls.Config{
 		InsecureSkipVerify: true,
-		ServerName:         ip,
 	}
 
 	transport := &http.Transport{

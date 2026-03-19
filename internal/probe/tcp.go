@@ -94,6 +94,8 @@ func guessProtocol(port uint16, banner string) string {
 		return "pop3"
 	case strings.HasPrefix(b, "* ok"):
 		return "imap"
+	case strings.HasPrefix(b, "http/"):
+		return "http"
 	case port == 3306 || strings.Contains(b, "mysql"):
 		return "mysql"
 	case port == 5432 || strings.Contains(b, "postgresql"):
