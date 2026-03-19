@@ -6,7 +6,11 @@
       "Bash(go get:*)",
       "Bash(git add:*)",
       "Bash(git rm:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(go run:*)",
+      "Bash(curl -ksI https://67.230.188.226:443 --connect-timeout 5)",
+      "Bash(curl -ksv https://67.230.188.226:443 --connect-timeout 8)"
     ]
   }
 }
